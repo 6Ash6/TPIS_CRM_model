@@ -1,0 +1,115 @@
+.modal__window{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 999;
+    background-color:rgba(51, 51, 51, .6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s, visibility .3s;
+  }
+  .modal__box-add{
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+    position: relative;
+    max-width: 450px;
+    width: 100%;
+    z-index: 1;
+    padding: 24px 0;
+    background-color: var(--white);
+    transform: scale(0);
+    transition: transform .8s;
+    
+  }
+  .modal__window.open{
+    visibility: visible;
+    opacity: 1;
+   
+
+  }
+  .modal__window.open .modal__box-add{
+    transform: scale(1);
+
+  }
+  .modal__btn{
+    position: absolute;
+    width: 29px;
+    height: 29px;
+    padding: 0;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background-color: transparent;
+  }
+  .modal__btn svg path{
+    transition: fill .3s ease-in-out;
+  }
+  .modal__btn:focus svg path{
+    fill: var(--firm);
+
+  }
+  .modal__btn:focus-visible {
+    outline: none;
+  }
+  .modal__btn:focus {
+    outline: none;
+  }
+ 
+  .modal__btn:hover svg path{
+    fill: var(--firm);
+
+  }
+  .modal__btn:active svg path{
+    fill: var(--red);
+  }
+  .modal__title{
+    margin: 0;
+    margin-bottom: 32px;
+    padding: 0 30px;
+    font-size: 18px;
+    color: var(--dark);
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .--modal__del{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .--modal__title-del{
+    margin-bottom: 10px;
+  }
+  .modal__del-descr{
+    color: var(--dark);
+    text-align: center;
+    margin: 0;
+    margin-bottom: 25px;
+    max-width: 275px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .modal__title-id{
+    margin: 0;
+    margin-left: 9px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: normal;
+    color: var(--text-grey);
+  }
+  .modal__wrapper-rem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  

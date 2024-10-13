@@ -1,0 +1,95 @@
+.clients{
+  margin-bottom: 40px;
+ 
+}
+.clients__wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.clients__title{
+    margin-bottom: 26px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--dark);
+  }
+  .clients__container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .clients__btn{
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background-color: transparent;
+    padding: 16px 26.5px;
+    border: 1px solid var(--firm) ;
+    color: var(--firm);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+    transition: background-color .3s ease-in-out, color .3s ease-in-out;
+  }
+  .client__btn-svg{
+    fill: var(--firm);
+    transition: fill .3s ease-in-out;
+  }
+  .clients__btn:hover{
+    background-color: var(--firm-opacity);
+    color: var(--white);
+  }
+  .clients__btn:focus{
+    background-color: var(--firm-focus);
+    color: var(--white);
+  }
+  .clients__btn:active{
+    border-color: var(--grey);
+    background-color: transparent;
+    color: var(--grey);
+  }
+  .clients__btn:focus .client__btn-svg{
+    fill: var(--white);
+
+  }
+  .clients__btn:hover .client__btn-svg{
+    fill: var(--white);
+
+  }
+  .clients__btn:active .client__btn-svg{
+    fill: var(--grey);
+
+  }
+  .clients__btn:focus-visible{
+    outline: none;
+  }
+  .clients__btn:focus{
+    outline: none;
+  }
+ 
+  .client__btn-svg{
+    margin-right: 10px;
+  }
+  @media (max-width:670px){
+    .clients .container{
+      padding: 0;
+    }
+    .clients{
+      width: 100%;
+    }
+    .clients__title{
+      margin-left: 10px;
+    }
+    .clients__container{
+      display: block;
+      max-width: 728px;
+      width: 100%;
+      overflow-y: scroll;
+     
+     
+
+    }
+    
+  }

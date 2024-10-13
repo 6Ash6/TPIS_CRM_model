@@ -1,0 +1,285 @@
+.form{
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .form__input{
+    color: var(--dark);
+    max-width: 390px;
+    padding: 4px 0;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--grey);
+    caret-color: var(--firm) ;
+  }
+  .error .form__input{
+    border-bottom: 1px solid var(--red);
+}
+  
+  .form-group{
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    max-width: 390px;
+    width: 100%;
+    padding: 0;
+  }
+  .form__input span{
+    color: #9873FF;
+  }
+ 
+  .label{
+    display: inline-block;
+    position: absolute;
+    font-size: 14px;
+    line-height: normal;
+    color: var(--text-grey);
+    top:50%;
+    cursor: pointer;
+    pointer-events: none;
+    left: 0;
+    transform: translateY(-50%);
+    transform-origin: left ;
+    transition: top .3s ease-in-out, transform .3s ease-in-out;
+  }
+  .label span{
+    color: var(--firm);
+  }
+  .form__input:focus + .label,
+  .form__input:not(:focus):valid + .label{
+    top: -15px;
+    transform: scale(.90);
+  }
+ 
+  .form__btn-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .form__add-contact{
+    display: flex;
+    flex-direction: column;
+    padding: 25px 30px;
+    gap: 25px;
+    /* align-items: center;
+    justify-content: center; */
+    max-width: 450px;
+    width: 100%;
+    margin: 0 -30px;
+    min-height: 35px;
+    background-color: rgba(200, 197, 209, .3);
+  }
+  
+  .form-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* select (choises)*/
+  .add__group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: 390px;
+    width: 100%;
+  }
+  .btn__delete-contact{
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--grey-opacity);
+    width: fit-content;
+    padding: 9.5px 5px;
+    border: 1px solid var(--grey);
+    border-radius: 0;
+    transition: border-color .3s ease-in-out;
+  }
+  .btn__delete-contact .contact__tooltip{
+    min-width: 133px;
+    top: -30px;
+  }
+  .btn__delete-contact:hover .contact__tooltip{
+    opacity:1;
+    visibility: visible;
+    transition: opacity .3s ease-in-out, visibility .3s ease-in-out;
+
+  }
+  .btn__delete-contact svg{
+    fill: var(--text-grey);
+    transition: fill .3s ease-in-out;
+  }
+  .btn__delete-contact:hover{
+    border-color: var(--red);
+  }
+  .btn__delete-contact:hover svg{
+    fill: var(--red);
+  }
+
+ .choices{
+  position: relative;
+    max-width: 123px;
+    width: 100%;
+    margin: 0;
+  
+ }
+ .choices__list--dropdown{
+  position: absolute;
+  background-color: var(--light-grey);
+  z-index: 2;
+  max-width: 123px;
+  width: 100%;
+ }
+ .choices[data-type*=select-one]:after{
+  height: 8px;
+  width: 8px;
+  z-index: 1;
+  top: 40%;
+  border: 2px solid var(--firm);
+  border-width: 0 0 2px 2px;
+  transform: rotate(-45deg);
+  transition: transform .3s ease-in-out;
+ }
+ .choices[data-type*=select-one].is-open:after{
+  top:60%;
+  border: 2px solid var(--firm);
+  border-width: 2px 2px 0 0;
+ }
+ .choices__inner{
+  min-height: 37px;
+  padding: 5px;
+  position: relative;
+  border: 1px solid var(--grey);
+  z-index: 0;
+  background-color: #E7E5EB;
+  border-radius: 0;
+ 
+ }
+ .choices__item{
+  max-width: 123px;
+  width: 100%;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--dark);
+ }
+ .choices__list--dropdown .choices__item--selectable{
+  padding: 10px 12px 10px 12px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--dark);
+  transition: background-color .3s ease-in-out;
+ }
+ 
+
+ .choices__list--dropdown.is-active{
+  background-color: rgba(244, 243, 246, 1);
+  border: 1px solid var(--grey);
+  border-radius: 0;
+  
+ }
+ .choices__list--dropdown .choices__item--selectable:hover{
+  background-color: rgba(231, 229, 235, 1);
+
+ }
+  .btn__add-contact{
+    display: flex;
+    align-items: center;
+    gap:4px;
+    border: none;
+    background-color: transparent;
+    transition: color .3s ease-in-out;
+   
+  }
+  .btn__add-contact svg{
+    fill: var(--firm);
+  }
+  
+  .btn__add-contact:hover{
+    color: var(--firm);
+  }
+  .btn__add-contact:focus{
+    color: var(--firm-focus);
+  }
+  .btn__add-contact:active{
+    color: var(--firm-focus);
+  }
+  .add__input{
+    padding: 6px 12px 7px 12px;
+    max-width: 236px;
+    width: 100%;
+    min-height: 37px;
+    background-color: transparent;
+    border: 1px solid var(--grey);
+    caret-color: var(--firm) ;
+    transition: border .3s ease-in-out;
+  }
+  .add__input:hover{
+    border: 1px solid var(--firm);
+
+  }
+  .add__input:focus{
+    border: 1px solid var(--firm);
+
+  }
+  .add__input:active{
+    border: 1px solid var(--firm);
+
+  }
+  .add__input::placeholder{
+    color: var(--text-grey);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .form__btn-save{
+    border: none;
+    background-color: var(--firm);
+    color: var(--white);
+    padding: 12px 35px;
+    transition: background-color .3s ease-in-out;
+  }
+  .form__btn-save:hover{
+    background-color: var(--firm-opacity);
+  }
+  .form__btn-save:focus{
+    background-color: var(--firm-focus);
+  }
+  .form__btn-save:active{
+    background-color: var(--grey);
+  }
+  .form__btn-remove{
+    color: var(--dark);
+    width: fit-content;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid var(--dark);
+    transition: color .3s ease-in-out, border-bottom .3s ease-in-out;
+  }
+  .form__btn-remove:focus{
+    color: var(--firm);
+    border-bottom: 1px solid var(--firm);
+
+  }
+  .form__btn-remove:hover{
+    color: var(--firm);
+    border-bottom: 1px solid var(--firm);
+
+  }
+  .form__btn-remove:active{
+    color: var(--firm);
+    border-bottom: 1px solid var(--firm);
+
+  }
+  /* table */
+  

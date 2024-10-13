@@ -1,0 +1,42 @@
+.header__inner{
+    position: relative;
+}
+.header__find-list{
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    position: absolute;
+    max-width: 581px;
+    top: 47px;
+    left: 0;
+    width: 100%;
+    z-index: 5;
+    background-color: var(--white);
+    box-shadow: 0px 3.38629px 5.64383px 0px rgba(176, 190, 197, 0.32), 0px 9.03012px 27.09036px 0px rgba(176, 190, 197, 0.32);
+
+}
+.find-link{
+    
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    transition: color .3s ease-in-out;
+}
+.find-link:hover{
+    text-decoration: none;
+    color: var(--firm-focus);
+
+}
+.find-item:not(:last-child){
+    margin-bottom: 8px;
+   
+}
+.hide{
+    display: none;
+}
+.mark{
+    background-color: transparent;
+    padding: 0;
+    color: var(--firm-focus);
+   
+}

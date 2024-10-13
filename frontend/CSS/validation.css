@@ -1,0 +1,15 @@
+.error-box{
+    margin: 0;
+    padding: 0;
+}
+.error .form__input{
+    border-color: var(--red);
+}
+.error-label{
+    margin: 0;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: normal;
+    color: var(--red);
+}

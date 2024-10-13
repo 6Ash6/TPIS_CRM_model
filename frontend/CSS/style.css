@@ -1,0 +1,124 @@
+@import url(table.css);
+@import url(modal.css);
+@import url(header.css);
+@import url(clients.css);
+@import url(form.css);
+@import url(tooltip.css);
+@import url(fonts.css);
+@import url(preloader.css);
+@import url(searchClient.css);
+@import url(validation.css);
+
+html{
+    box-sizing: border-box;
+  }
+  *,
+  *::before,
+  *::after{
+    box-sizing: inherit;
+  }
+  img{
+    max-width: 100%;
+  }
+  a{
+    color: inherit;
+    text-decoration: none;
+  }
+  .list-reset{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+  }
+  button:focus-visible{
+    outline: none;
+  }
+  button:focus{
+    outline: none;
+    border: none;
+  }
+  input:focus{
+    outline: none;
+  }
+  input:focus-visible{
+    outline: none;
+    border: none;
+  }
+
+  body{
+    background-color: var(--background);
+    font-family: "OpenSans", sans-serif;
+    font-weight: 400;
+    
+  }
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+  :root{
+    --gap: 20px;
+    --offsets: 3;
+    --white: #FFF;
+    --text-grey: #B0B0B0;
+    --grey: #C8C5D1;
+    --dark: #333;
+    --background: #F5F5F5;
+    --firm :#9873FF;
+    --firm-focus:#8052FF;
+    --firm-opacity: rgba(152, 115, 255, .7);
+    --red: rgba(240, 106, 77, 1);
+    --light-grey:#F4F3F6;
+    --grey-opacity:  rgba(200, 197, 209, .5);
+   
+  }
+  .site-tooltip{
+    position: absolute;
+    top: -41px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    padding: 7px 12px;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: normal;
+    background-color: var(--dark) ;
+    transition: opacity .3s ease-in-out, visibility .3s ease-in-out ;
+
+  }
+  .site-tooltip:focus-visible{
+    outline: none;
+    border: none;
+  }
+  .site-tooltip::before{
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-50%);
+    clip-path: polygon(100% 0, 0 0, 51% 100% );
+    background-color: var(--dark) ;
+  }
+  .container{
+    max-width: 1400px;
+    padding: 0px 90px;
+    margin: 0 auto;
+  
+  }
+  .head__col{
+    cursor: pointer;
+  }
+
+ @media (max-width:1200px) {
+  .container{
+    /* max-width: 1200px; */
+    padding: 0 20px;
+  }
+ }
+ 
+  
+
+
+  
