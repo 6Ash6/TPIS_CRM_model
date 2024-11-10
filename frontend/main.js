@@ -7,49 +7,107 @@ import {closeSvg} from "./svg.js";
 import {addSvg} from "./svg.js";
 
 (async function () {
+  /**
+ * Основной URL сервера.
+ * @constant {string}
+ */
   const SERVER_URL = 'http://localhost:3000';
+  
+  /**
+ * Кнопка добавления контакта на форме.
+ * @type {HTMLElement}
+ */
   const $addContactBtn = document.getElementById('form__add-btn'),
+  /**
+ * Форма добавления контакта.
+ * @type {HTMLElement}
+ */
     $formAddContact = document.getElementById('form__add-contact');
 
+  /**
+ * Модальное окно добавления клиента.
+ * @type {HTMLElement}
+ */
   const $addModal = document.getElementById("modal__window-add");
+
+/**
+ * Открывает модальное окно добавления клиента при клике.
+ * @event
+ */
   document.getElementById("open__modal").addEventListener('click', function () {
     $addModal.classList.add('open');
   })
+
+  /**
+ * Закрывает модальное окно при клике.
+ * @event
+ */
   document.getElementById("modal__btn").addEventListener('click', function () {
     $addModal.classList.remove('open');
   })
-  //закрыть модальное окно при нажатии на esc
+ 
+  /**
+ * Закрывает модальное окно при нажатии клавиши Esc.
+ * @event
+ * @param {KeyboardEvent} e - Событие клавиатуры.
+ */
   window.addEventListener('keydown', (e) => {
     if (e.key === "Escape") {
       $addModal.classList.remove('open');
     }
   });
 
+  /**
+ * Помечает событие клика, чтобы предотвратить закрытие модального окна.
+ * @event
+ * @param {MouseEvent} event - Событие клика.
+ */
   document.querySelector("#modal__window-add .modal__box-add").addEventListener('click', event => {
     event._isClickWithInModal = true;
   });
+
+  /**
+ * Закрывает модальное окно, если клик произошел вне его содержимого.
+ * @event
+ * @param {MouseEvent} event - Событие клика.
+ */
   $addModal.addEventListener('click', event => {
     if (event._isClickWithInModal) return;
     event.currentTarget.classList.remove('open');
   });
 
-  //добавляем клиента
+  /**
+ * Добавляет нового клиента на сервер.
+ * @async
+ * @function serverAddClient
+ * @param {Object} obj - Данные клиента для отправки на сервер.
+ * @returns {Promise<Object>} Ответ с данными добавленного клиента.
+ */
   async function serverAddClient(obj) {
-    let response = await fetch(SERVER_URL + '/api/clients', { //запрос
-      method: "POST",                                //информация о запросе
+    let response = await fetch(SERVER_URL + '/api/clients', { 
+      method: "POST",                                
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(obj), //информция в json
+      body: JSON.stringify(obj), 
     })
 
     let data = await response.json()
 
     return data
   }
+
+  /**
+ * Выполняет запрос на сервер для обновления клиента.
+ * @async
+ * @function serverUpdateClient
+ * @param {Object} obj - Обновленные данные клиента.
+ * @param {string} id - Идентификатор клиента.
+ * @returns {Promise<Object>} Обновленные данные клиента.
+ */
   async function serverUpdateClient(obj, id ) {
-    let response = await fetch(SERVER_URL + '/api/clients/' + id,  { //запрос
+    let response = await fetch(SERVER_URL + '/api/clients/' + id,  { 
       method: "PATCH",        
-      headers: { 'Content-Type': 'application/json' },                        //информация о запросе
-      body: JSON.stringify(obj), //информция в json
+      headers: { 'Content-Type': 'application/json' },                        
+      body: JSON.stringify(obj), 
     })
 
     let data = await response.json()
@@ -58,10 +116,15 @@ import {addSvg} from "./svg.js";
   }
 
 
-  //получаем данные с сервера
+  /**
+ * Получает список клиентов с сервера.
+ * @async
+ * @function serverGetClient
+ * @returns {Promise<Array<Object>>} Список клиентов.
+ */
   async function serverGetClient() {
-    let response = await fetch(SERVER_URL + '/api/clients', { //запрос
-      method: "GET",                                //информация о запросе
+    let response = await fetch(SERVER_URL + '/api/clients', { 
+      method: "GET",                                
       headers: { 'Content-Type': 'application/json' },
     })
 
@@ -69,9 +132,17 @@ import {addSvg} from "./svg.js";
 
     return data
   }
+
+  /**
+ * Получает клиента по ID.
+ * @async
+ * @function GetClientByID
+ * @param {string} id - Идентификатор клиента.
+ * @returns {Promise<Object>} Данные клиента.
+ */
   async function GetClientByID(id) {
-    let response = await fetch(SERVER_URL + '/api/clients' + id, { //запрос
-      method: "GET",                                //информация о запросе
+    let response = await fetch(SERVER_URL + '/api/clients' + id, { 
+      method: "GET",                                
       headers: { 'Content-Type': 'application/json' },
     })
 
@@ -80,10 +151,17 @@ import {addSvg} from "./svg.js";
     return data
   }
 
+  /**
+ * Выполняет поиск клиентов на сервере по значению.
+ * @async
+ * @function findClient
+ * @param {string} value - Значение для поиска.
+ * @returns {Promise<Array<Object>>} Найденные клиенты.
+ */
   async function findClient(value){
     try {
-      let response = await fetch(`http://localhost:3000/api/clients?search=${value}`, { //запрос
-        method: "GET",                                //информация о запросе
+      let response = await fetch(`http://localhost:3000/api/clients?search=${value}`, { 
+        method: "GET",                                
        
       });
       let data = await response.json();
@@ -93,9 +171,17 @@ import {addSvg} from "./svg.js";
     }
 
   }
+
+  /**
+ * Удаляет клиента с сервера по ID.
+ * @async
+ * @function serverDelete
+ * @param {string} id - Идентификатор клиента.
+ * @returns {Promise<Object>} Ответ сервера.
+ */
   async function serverDelete(id) {
-    let response = await fetch(SERVER_URL + '/api/clients/' + id, { //запрос
-      method: "DELETE",                                //информация о запросе
+    let response = await fetch(SERVER_URL + '/api/clients/' + id, { 
+      method: "DELETE",                                е
 
     })
 
@@ -109,7 +195,7 @@ import {addSvg} from "./svg.js";
   let clientsList = [];
 
   if (serverData != null) {
-    clientsList = serverData; //добавляем данные с сервера
+    clientsList = serverData; 
   }
 
   let sortFlag = "";
@@ -148,6 +234,12 @@ import {addSvg} from "./svg.js";
    
   });
 
+  /**
+ * Форматирует дату в строку.
+ * @function getDateAt
+ * @param {string} data - Дата для форматирования.
+ * @returns {string} Форматированная дата.
+ */
   function getDateAt(data) {
     let dat = new Date(data);
     const year = dat.getFullYear();
@@ -159,6 +251,12 @@ import {addSvg} from "./svg.js";
     return dd + '.' + mm + '.' + year;
   }
 
+  /**
+ * Форматирует время в строку.
+ * @function getTimeAt
+ * @param {string} dat - Время для форматирования.
+ * @returns {string} Форматированное время.
+ */
   function getTimeAt(dat) {
     let hours = new Date(dat).getHours();
     let min = new Date(dat).getMinutes();
@@ -169,8 +267,11 @@ import {addSvg} from "./svg.js";
     return Time;
   }
 
- 
-
+ /**
+ * Создает элемент прелоадера.
+ * @function Preloader
+ * @returns {HTMLElement} Элемент прелоадера.
+ */
   function Preloader(){
     const preloaderBlock = document.createElement('div');
     const preloaderCircle = document.createElement('span');
@@ -188,7 +289,15 @@ import {addSvg} from "./svg.js";
  
 
 
-
+/**
+ * Создает ссылку-контакт с иконкой.
+ * @function createContactLink
+ * @param {string} type - Тип контакта (телефон, email и т. д.).
+ * @param {string} value - Значение контакта.
+ * @param {HTMLElement} element - HTML-элемент ссылки.
+ * @param {string} svg - SVG иконка.
+ * @param {HTMLElement} item - Элемент для добавления ссылки.
+ */
   function createContactLink(type, value, element, svg, item){
     const contactTooltip = createTooltip(type, value);
     element = document.createElement('a');
@@ -214,6 +323,13 @@ import {addSvg} from "./svg.js";
 
   }
 
+  /**
+ * Создает иконку контакта.
+ * @function createContactIcon
+ * @param {string} type - Тип контакта.
+ * @param {string} value - Значение контакта.
+ * @param {HTMLElement} item - Элемент для добавления иконки.
+ */
   function createContactIcon(type, value, item){
     switch (type){
       case 'Телефон':
@@ -245,15 +361,23 @@ import {addSvg} from "./svg.js";
 
     }
   }
+  /**
+ * Массив для хранения контактов.
+ * @type {Array<Object>}
+ */
   let contacts = [];
 
   // function validateForm(){
   //   const userName = document.getElementById('')
   // };
 
-
-
-
+/**
+ * Создает модальное окно для редактирования клиента.
+ * @function createModal
+ * @param {Object} client - Данные клиента.
+ * @param {HTMLElement} $clientTR - Табличная строка клиента.
+ * @returns {Object} Объект с элементами модального окна.
+ */
   function createModal(client, $clientTR){
     const $modalWindow = document.createElement('div');
     $modalWindow.classList.add('modal__window');
@@ -424,9 +548,15 @@ import {addSvg} from "./svg.js";
     $modalLastname,
 
   }
-  
+}
 
-  }
+/**
+ * Создает модальное окно для подтверждения удаления клиента.
+ * @function createDeleteModal
+ * @param {Object} client - Данные клиента.
+ * @param {HTMLElement} $clientTR - Табличная строка клиента.
+ * @returns {HTMLElement} Модальное окно удаления.
+ */
   function createDeleteModal(client, $clientTR){
     const $modalWindow = document.createElement('div');
     $modalWindow.classList.add('modal__window');
@@ -473,7 +603,12 @@ import {addSvg} from "./svg.js";
    return $modalWindow;
   }
 
-
+/**
+ * Создает строку таблицы для клиента.
+ * @function createClient
+ * @param {Object} client - Данные клиента.
+ * @returns {HTMLElement} Строка клиента для таблицы.
+ */
   function createClient(client) {
     const $clientTR = document.createElement('tr'),
       $clientID = document.createElement('td'),
@@ -618,6 +753,10 @@ import {addSvg} from "./svg.js";
     // mask.append(loader);
     // $tableBody.append(mask);
    
+    /**
+ * Скрывает прелоадер после загрузки страницы.
+ * @event
+ */
     window.addEventListener('load', ()=>{
       mask.classList.add('hide');
       setTimeout(() =>{
@@ -626,7 +765,11 @@ import {addSvg} from "./svg.js";
   
     });
       
-
+/**
+ * Выполняет поиск клиентов и отображает результаты.
+ * @function searchClients
+ * @param {Array<Object>} clientsList - Список клиентов.
+ */
     function searchClients(clientsList){
       const $searchClient = document.getElementById('search');
       const $inner = document.getElementById('inner');
@@ -698,7 +841,11 @@ import {addSvg} from "./svg.js";
 
    
 
-
+/**
+ * Рендерит таблицу клиентов.
+ * @function renderClientsTable
+ * @param {Array<Object>} clientsList - Список клиентов.
+ */
   function renderClientsTable(clientsList) {
     
     $tableBody.innerHTML = '';
@@ -717,7 +864,13 @@ import {addSvg} from "./svg.js";
     
   };
 
-
+/**
+ * Создает тултип для контакта.
+ * @function createTooltip
+ * @param {string} type - Тип контакта.
+ * @param {string} value - Значение контакта.
+ * @returns {Object} Объект с элементами тултипа.
+ */
   function createTooltip(type, value){
     const tooltip = document.createElement('div');
     const toolType = document.createElement('span');
@@ -741,7 +894,11 @@ import {addSvg} from "./svg.js";
   };
 
 
-
+/**
+ * Создает элемент для ввода контакта.
+ * @function createContact
+ * @returns {Object} Объект с элементами для ввода контакта.
+ */
   function createContact() {
     const element = document.createElement('select');
     let addContactInput = document.createElement('input');
@@ -793,6 +950,12 @@ import {addSvg} from "./svg.js";
   }
 
   let clicks = 0;
+
+  /**
+ * Ограничивает количество добавляемых контактов.
+ * @event
+ * @param {Event} e - Событие клика.
+ */
   $addContactBtn.addEventListener('click', function (e) {
     e.preventDefault();
     clicks++;
@@ -809,6 +972,12 @@ import {addSvg} from "./svg.js";
 
   });
 
+  /**
+ * Проверяет валидацию формы.
+ * @function validation
+ * @param {HTMLElement} form - HTML-форма.
+ * @returns {boolean} Результат валидации.
+ */
   function validation(form){
     function removeError(input){
       const parent = input.parentNode;
@@ -853,7 +1022,11 @@ import {addSvg} from "./svg.js";
 
  
  
-
+/**
+ * Обрабатывает отправку формы добавления клиента.
+ * @event
+ * @param {Event} event - Событие отправки формы.
+ */
   $addForm.addEventListener('submit', async function (event) {
     event.preventDefault();
     if( validation(this) == true){
