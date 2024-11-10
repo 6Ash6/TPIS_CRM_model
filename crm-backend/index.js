@@ -1,14 +1,18 @@
-/* eslint-disable no-console */
-// импорт стандартных библиотек Node.js
 const { createServer } = require('http');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-// Указываем путь к базе данных SQLite
+/**
+ * Путь к базе данных SQLite.
+ * @constant {string}
+ */
 const dbPath = path.resolve(process.cwd(), './database.db');
 const db = new sqlite3.Database(dbPath);
 
-// Создание таблицы, если она не существует
+/**
+ * Создаёт таблицу клиентов в базе данных, если она не существует.
+ * @function
+ */
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS clients (
@@ -27,13 +31,24 @@ db.serialize(() => {
   });
 });
 
-// номер порта, на котором будет запущен сервер
+/**
+ * Номер порта, на котором будет запущен сервер.
+ * @constant {number}
+ */
 const PORT = process.env.PORT || 3000;
-// префикс URI для всех методов приложения
+
+/**
+ * Префикс URI для всех методов API.
+ * @constant {string}
+ */
 const URI_PREFIX = '/api/clients';
 
 /**
- * Класс ошибки, используется для отправки ответа с определённым кодом и описанием ошибки
+ * Класс ошибки API, используемый для отправки ответа с кодом ошибки и описанием.
+ * @class
+ * @extends Error
+ * @param {number} statusCode - Код статуса ошибки.
+ * @param {Object} data - Данные об ошибке.
  */
 class ApiError extends Error {
   constructor(statusCode, data) {
@@ -44,10 +59,12 @@ class ApiError extends Error {
 }
 
 /**
- * Асинхронно считывает тело запроса и разбирает его как JSON
- * @param {Object} req - Объект HTTP запроса
- * @throws {ApiError} Некорректные данные в аргументе
- * @returns {Object} Объект, созданный из тела запроса
+ * Асинхронно считывает тело запроса и разбирает его как JSON.
+ * @async
+ * @function drainJson
+ * @param {Object} req - Объект HTTP запроса.
+ * @returns {Promise<Object>} Объект, созданный из тела запроса.
+ * @throws {ApiError} Некорректные данные в аргументе.
  */
 function drainJson(req) {
   return new Promise((resolve) => {
@@ -62,10 +79,11 @@ function drainJson(req) {
 }
 
 /**
- * Проверяет входные данные и создаёт из них корректный объект клиента
- * @param {Object} data - Объект с входными данными
- * @throws {ApiError} Некорректные данные в аргументе (statusCode 422)
- * @returns {{ name: string, surname: string, lastName: string, contacts: object[] }} Объект клиента
+ * Проверяет и преобразует данные в объект клиента.
+ * @function makeClientFromData
+ * @param {Object} data - Входные данные клиента.
+ * @returns {Object} Объект клиента.
+ * @throws {ApiError} Некорректные данные (код 422).
  */
 function makeClientFromData(data) {
   const errors = [];
@@ -95,9 +113,10 @@ function makeClientFromData(data) {
 }
 
 /**
- * Возвращает список клиентов из базы данных SQLite
- * @param {{ search: string }} [params] - Поисковая строка
- * @returns {Promise<{}[]>} Массив клиентов
+ * Получает список клиентов из базы данных.
+ * @function getClientList
+ * @param {Object} [params] - Параметры запроса.
+ * @returns {Promise<Array<Object>>} Массив объектов клиентов.
  */
 function getClientList(params = {}) {
   return new Promise((resolve, reject) => {
@@ -113,10 +132,11 @@ function getClientList(params = {}) {
 }
 
 /**
- * Создаёт и сохраняет клиента в базу данных SQLite
- * @throws {ApiError} Некорректные данные в аргументе, клиент не создан (statusCode 422)
- * @param {Object} data - Данные из тела запроса
- * @returns {Promise<{}>} Объект клиента
+ * Создаёт нового клиента и сохраняет его в базе данных.
+ * @function createClient
+ * @param {Object} data - Данные клиента из тела запроса.
+ * @returns {Promise<Object>} Объект клиента.
+ * @throws {ApiError} Некорректные данные (код 422).
  */
 function createClient(data) {
   return new Promise((resolve, reject) => {
@@ -138,10 +158,11 @@ function createClient(data) {
 }
 
 /**
- * Возвращает объект клиента по его ID из базы данных SQLite
- * @param {string} itemId - ID клиента
- * @throws {ApiError} Клиент с таким ID не найден (statusCode 404)
- * @returns {Promise<{}>} Объект клиента
+ * Получает клиента по ID из базы данных.
+ * @function getClient
+ * @param {string} itemId - Идентификатор клиента.
+ * @returns {Promise<Object>} Объект клиента.
+ * @throws {ApiError} Клиент не найден (код 404).
  */
 function getClient(itemId) {
   return new Promise((resolve, reject) => {
@@ -155,12 +176,13 @@ function getClient(itemId) {
 }
 
 /**
- * Изменяет клиента с указанным ID и сохраняет изменения в базу данных SQLite
- * @param {string} itemId - ID изменяемого клиента
- * @param {Object} data - Объект с изменяемыми данными
- * @throws {ApiError} Клиент с таким ID не найден (statusCode 404)
- * @throws {ApiError} Некорректные данные в аргументе (statusCode 422)
- * @returns {Promise<{}>} Объект клиента
+ * Обновляет данные клиента по его ID и сохраняет изменения.
+ * @function updateClient
+ * @param {string} itemId - Идентификатор клиента.
+ * @param {Object} data - Обновлённые данные клиента.
+ * @returns {Promise<Object>} Обновлённый объект клиента.
+ * @throws {ApiError} Клиент не найден (код 404).
+ * @throws {ApiError} Некорректные данные (код 422).
  */
 function updateClient(itemId, data) {
   return new Promise((resolve, reject) => {
@@ -179,10 +201,11 @@ function updateClient(itemId, data) {
 }
 
 /**
- * Удаляет клиента из базы данных SQLite
- * @param {string} itemId - ID клиента
- * @throws {ApiError} Клиент с таким ID не найден (statusCode 404)
- * @returns {Promise<{}>} Пустой объект
+ * Удаляет клиента по его ID из базы данных.
+ * @function deleteClient
+ * @param {string} itemId - Идентификатор клиента.
+ * @returns {Promise<Object>} Пустой объект.
+ * @throws {ApiError} Клиент не найден (код 404).
  */
 function deleteClient(itemId) {
   return new Promise((resolve, reject) => {
@@ -195,7 +218,12 @@ function deleteClient(itemId) {
   });
 }
 
-// создаём HTTP сервер
+/**
+ * HTTP сервер для обработки API-запросов к базе данных клиентов.
+ * @event
+ * @param {Object} req - Объект запроса.
+ * @param {Object} res - Объект ответа.
+ */
 module.exports = createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -254,6 +282,11 @@ module.exports = createServer(async (req, res) => {
     }
   }
 })
+
+/**
+ * Слушает событие 'listening' и выводит сообщение о запуске сервера.
+ * @event
+ */
   .on('listening', () => {
     if (process.env.NODE_ENV !== 'test') {
       console.log(`Сервер CRM запущен. Вы можете использовать его по адресу http://localhost:${PORT}`);
@@ -261,7 +294,10 @@ module.exports = createServer(async (req, res) => {
   })
   .listen(PORT);
 
-// Закрытие соединения с базой данных при выходе
+/**
+ * Закрывает подключение к базе данных при завершении процесса.
+ * @event
+ */
 process.on('exit', () => {
   db.close();
 });
